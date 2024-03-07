@@ -26,7 +26,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id @GeneratedValue
     private Integer id;
-    private String name;
+    private String username;
     private String firstname;
     private String lastname;
     private int age;
@@ -47,7 +47,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return username;
     }
 
     @Override
