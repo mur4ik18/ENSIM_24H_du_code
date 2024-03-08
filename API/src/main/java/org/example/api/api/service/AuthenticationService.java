@@ -1,4 +1,4 @@
-package org.example.api.service;
+package org.example.api.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.api.api.model.User;

@@ -1,26 +1,22 @@
 package org.example.api.api.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.api.api.model.User;
-import org.example.api.service.UserService;
+import org.example.api.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1/user")
+@RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
-
     @Autowired
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
-
+    UserService userService;
     @GetMapping("/user")
-    public User getUser(@RequestParam Integer id){
-        Optional<User> user = userService.getUser(id);
-        return (User) user.orElse(null);
+    public ResponseEntity<String> getUser(Integer id){
+        return ResponseEntity.ok(userService.findById(id).toString());
     }
 }

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.api.api.auth.AuthenticationRequest;
 import org.example.api.api.auth.AuthenticationResponse;
 import org.example.api.api.auth.RegisterRequest;
-import org.example.api.service.AuthenticationService;
+import org.example.api.api.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
