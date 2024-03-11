@@ -1,51 +1,73 @@
 package org.example.api.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.persistence.GeneratedValue;
 
-public class User {
-    private int id;
-    private String name;
+import jakarta.persistence.GenerationType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import java.util.Collection;
+import java.util.List;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "_user")
+public class User implements UserDetails {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String username;
+    private String firstname;
+    private String lastname;
     private int age;
     private String email;
+    private String password;
 
-    public User(int id, String name, int age, String email) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.email = email;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public String getPassword() {
+        return password;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public int getAge() {
-        return age;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
