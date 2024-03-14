@@ -1,3 +1,4 @@
+package org.example.api.api.model;
 import java.util.List;
 
 public class Sujet {

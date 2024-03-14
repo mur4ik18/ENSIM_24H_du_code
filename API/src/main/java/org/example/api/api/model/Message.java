@@ -1,3 +1,5 @@
+package org.example.api.api.model;
+
 public class Message {
     private String objet;
     private String redacteur;

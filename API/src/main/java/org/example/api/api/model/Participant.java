@@ -1,7 +1,12 @@
-public class Participant extends Utilisateur {
+package org.example.api.api.model;
+
+import javax.persistence.OneToMany;
+
+public class Participant extends User {
     private String categorie;
-    private String equipe;
+    @OneToMany(mappedBy = "equipe")
+    private Equipe equipe;
     private String choixPaiement;
-    private int paiement;
+    private boolean paye;
     
 }
