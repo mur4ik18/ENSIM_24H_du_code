@@ -1,6 +1,4 @@
-package org.example.api.api.service;
-
-import org.example.api.api.model.User;
+package org.example.api.api.user;
 
 import java.util.Optional;
 

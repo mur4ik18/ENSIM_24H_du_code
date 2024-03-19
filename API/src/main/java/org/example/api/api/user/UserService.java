@@ -1,13 +1,7 @@
-package org.example.api.api.service;
+package org.example.api.api.user;
 
-import org.example.api.api.model.Role;
-import org.example.api.api.model.User;
-import org.example.api.api.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 @Service

@@ -1,4 +1,4 @@
-package org.example.api.api.request;
+package org.example.api.api.equipe;
 
 import lombok.*;
 

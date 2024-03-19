@@ -1,6 +1,7 @@
 package org.example.api.api.model;
 
 import jakarta.persistence.*;
+import org.example.api.api.user.User;
 
 
 @Entity

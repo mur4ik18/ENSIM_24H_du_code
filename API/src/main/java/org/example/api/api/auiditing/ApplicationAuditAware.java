@@ -1,6 +1,6 @@
 package org.example.api.api.auiditing;
 
-import org.example.api.api.model.User;
+import org.example.api.api.user.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

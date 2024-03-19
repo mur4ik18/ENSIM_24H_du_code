@@ -1,4 +1,4 @@
-package org.example.api.api.model;
+package org.example.api.api.equipe;
 
 import jakarta.persistence.*;
 import jakarta.servlet.http.Part;
@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "equipe")
-@EntityListeners(AuditingEntityListener.class)
+@Entity
 public class Equipe {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
