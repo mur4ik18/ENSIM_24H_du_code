@@ -1,8 +1,8 @@
 package org.example.api.api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.api.api.model.User;
-import org.example.api.api.repository.UserRepository;
+import org.example.api.api.user.User;
+import org.example.api.api.user.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

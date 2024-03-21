@@ -1,4 +1,6 @@
 package org.example.api.api.model;
+import org.example.api.api.equipe.Equipe;
+
 import java.util.List;
 
 public class Sujet {
