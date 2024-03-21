@@ -13,7 +13,12 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
-        return repository.findById(id);
+    public Optional<User> findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String email) {
+        return repository.findByUsername(email);
     }
 }

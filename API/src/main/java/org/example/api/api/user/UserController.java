@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     UserService userService;
-    @GetMapping("/user")
-    public ResponseEntity<String> getUser(Integer id){
-        return ResponseEntity.ok(userService.findById(id).toString());
+    @GetMapping
+    public ResponseEntity<String> getUser(String email){
+        System.out.println();
+        return ResponseEntity.ok(userService.findByEmail(email).toString());
     }
 }

@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EquipeRequest {
-    private Long id;
     private String nom;
     private String motDePasse;
 }
