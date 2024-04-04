@@ -1,4 +1,4 @@
-package org.example.api.api.service;
+package org.example.api.api.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.example.api.api.user.User;
@@ -21,6 +21,9 @@ public class AuthenticationService {
     private final JwtService jwtTokenService;
     private final AuthenticationManager authenticationManager;
 
+    public boolean EmailExists(String email) {
+        return repository.findByEmail(email).isPresent();
+    }
     public AuthenticationResponse register(RegisterRequest request) {
        var user = User.builder()
                 .firstname(request.getFirstName())
