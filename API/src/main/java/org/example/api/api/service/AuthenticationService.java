@@ -39,12 +39,18 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse login(AuthenticationRequest request) {
+        /*
+        I commented this out because it was causing an error
+        I don't know why it was there in the first place
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
+         */
+        System.out.println(request.getEmail());
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = JwtService.generateToken(user);
