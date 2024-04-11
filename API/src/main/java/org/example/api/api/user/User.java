@@ -1,19 +1,17 @@
 package org.example.api.api.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.api.api.equipe.Equipe;
 import org.example.api.api.model.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import jakarta.persistence.GeneratedValue;
 
-import jakarta.persistence.GenerationType;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.util.Collection;
@@ -34,6 +32,18 @@ public class User implements UserDetails {
     private int age;
     private String email;
     private String password;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_EQUIPE",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "equipe_id", referencedColumnName = "id")
+            }
+    )
+    @JsonManagedReference
+    private Equipe SonEquipe;
 
     @Enumerated(EnumType.STRING)
     private Role role;
