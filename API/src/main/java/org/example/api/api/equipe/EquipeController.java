@@ -27,4 +27,6 @@ public class EquipeController {
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(service.findAll());
     }
+
+
 }

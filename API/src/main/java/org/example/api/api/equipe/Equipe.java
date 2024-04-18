@@ -27,8 +27,7 @@ public class Equipe {
     private String image;
     private String motDePasse;
 
-    @OneToMany(mappedBy = "SonEquipe",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
+    @OneToMany(mappedBy = "SonEquipe")
     private Set<User> listeMembres = new HashSet<>();
     private int paiement;
     private int annee;

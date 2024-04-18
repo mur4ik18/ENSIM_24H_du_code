@@ -34,15 +34,7 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_EQUIPE",
-            joinColumns = {
-                    @JoinColumn(name = "user_id", referencedColumnName = "id")
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "equipe_id", referencedColumnName = "id")
-            }
-    )
-    @JsonManagedReference
+    @JoinColumn(name = "equipe_id", referencedColumnName = "id")
     private Equipe SonEquipe;
 
     @Enumerated(EnumType.STRING)
