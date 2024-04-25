@@ -27,7 +27,8 @@ public class Equipe {
     private String image;
     private String motDePasse;
 
-    @OneToMany(mappedBy = "SonEquipe", fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "equipe_id", referencedColumnName = "id")
     private Set<User> listeMembres = new HashSet<>();
     private int paiement;
     private int annee;
