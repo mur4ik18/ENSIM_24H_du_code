@@ -1,5 +1,6 @@
 package org.example.api.api.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,7 +34,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "equipe_id", referencedColumnName = "id")
     private Equipe SonEquipe;
 

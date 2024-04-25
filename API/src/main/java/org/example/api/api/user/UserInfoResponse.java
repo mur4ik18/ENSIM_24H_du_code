@@ -15,4 +15,11 @@ public class UserInfoResponse {
     private String email;
     private String role;
     private Equipe equipe;
+
+    public static UserInfoResponse fromUser(User user) {
+        UserInfoResponse response = new UserInfoResponse();
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        return response;
+    }
 }

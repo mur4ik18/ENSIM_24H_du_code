@@ -28,5 +28,10 @@ public class EquipeController {
         return ResponseEntity.ok(service.findAll());
     }
 
-
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOne(
+            @PathVariable Integer id
+    ) {
+        return ResponseEntity.ok(service.findById(id));
+    }
 }

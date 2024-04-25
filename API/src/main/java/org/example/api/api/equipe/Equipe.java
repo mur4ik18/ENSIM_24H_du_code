@@ -27,7 +27,7 @@ public class Equipe {
     private String image;
     private String motDePasse;
 
-    @OneToMany(mappedBy = "SonEquipe")
+    @OneToMany(mappedBy = "SonEquipe", fetch = FetchType.EAGER)
     private Set<User> listeMembres = new HashSet<>();
     private int paiement;
     private int annee;

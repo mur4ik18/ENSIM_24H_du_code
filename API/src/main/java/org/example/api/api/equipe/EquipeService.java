@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.example.api.api.equipe.EquipeRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,18 +48,28 @@ public class EquipeService {
         equipe.setListeMembres(listeMembres);
         // Save the equipe object to the database
         repository.save(equipe);
-        // Print the equipe object to the console
-        System.out.println(equipe);
+        System.out.println("Equipe saved - " + equipe);
         // Set the equipe to the user object
         user.setSonEquipe(equipe);
     }
 
+
     public List<EquipeInfoResponse> findAll() {
         List<Equipe> equipes = repository.findAll();
+        System.out.println("Equipes found - " + equipes);
         ArrayList<EquipeInfoResponse> equipeInfoResponses = new ArrayList<EquipeInfoResponse>();
         for (Equipe equipe : equipes) {
+            System.out.println("Equipe found - " + equipe);
+            System.out.println("Equipe Users - " + equipe.getListeMembres());
             equipeInfoResponses.add(EquipeInfoResponse.fromEquipe(equipe));
         }
         return equipeInfoResponses;
+    }
+
+    public EquipeInfoResponse findById(Integer id) {
+        Equipe equipe = repository.findById(id).get();
+        System.out.println("Equipe found - " + equipe);
+        System.out.println("Equipe Users - " + equipe.getListeMembres());
+        return EquipeInfoResponse.fromEquipe(equipe);
     }
 }
