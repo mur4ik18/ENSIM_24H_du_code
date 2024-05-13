@@ -14,10 +14,11 @@ import org.springframework.test.annotation.DirtiesContext;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @AutoConfigureTestDatabase
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ApiTest {
 
     private static final int PORT = 8080; // Définissez le port ici
+
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -83,6 +84,8 @@ class ApiTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+    @Test
+    @DirtiesContext
     void testRegisterEndpointwithoutemail() {
         String baseUrl = "http://localhost:" + PORT + "/api/v1/auth/register";
         HttpHeaders headers = new HttpHeaders();
@@ -98,7 +101,7 @@ class ApiTest {
     }
     @Test
     @DirtiesContext
-    void testRegisterWithoutPassWord() {
+    void testRegisterEndpointWithoutPassWord() {
         String baseUrl = "http://localhost:" + PORT + "/api/v1/auth/register";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
