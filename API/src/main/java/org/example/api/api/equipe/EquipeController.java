@@ -42,4 +42,11 @@ public class EquipeController {
         String response = service.join(request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/leave")
+    public ResponseEntity<?> leave(
+            @RequestBody EquipeRequest request
+    ) {
+        return ResponseEntity.ok(service.leave());
+    }
 }

@@ -118,20 +118,6 @@ public class EquipeService {
         return EquipeInfoResponse.fromEquipe(equipe);
     }
 
-    public EquipeInfoResponse delete() {
-        // Get the authentication object from the security context
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        // Find the user from the database using the username from the authentication object
-        User user = userRepository.findByUsername(auth.getName()).get();
-        Equipe equipe = user.getSonEquipe();
-        Set<User> listeMembres = equipe.getListeMembres();
-        listeMembres.remove(user);
-        equipe.setListeMembres(listeMembres);
-        repository.save(equipe);
-        user.setSonEquipe(null);
-        repository.delete(equipe);
-        return EquipeInfoResponse.fromEquipe(equipe);
-    }
 
     public boolean UserInEquipe() {
         // Get the authentication object from the security context
