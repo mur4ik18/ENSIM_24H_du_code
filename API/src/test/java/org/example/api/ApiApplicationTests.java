@@ -40,7 +40,6 @@ class ApiTest {
     }
 
     @Test
-    @DirtiesContext
     void testRegisterEndpointWithoutUsername() {
         String baseUrl = "http://localhost:" + PORT + "/api/v1/auth/register";
         HttpHeaders headers = new HttpHeaders();
@@ -55,7 +54,6 @@ class ApiTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
     @Test
-    @DirtiesContext
     void testRegisterEndpointwithoutfirstName() {
         String baseUrl = "http://localhost:" + PORT + "/api/v1/auth/register";
         HttpHeaders headers = new HttpHeaders();
@@ -70,7 +68,6 @@ class ApiTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
     @Test
-    @DirtiesContext
     void testRegisterEndpointwithoutlastName() {
         String baseUrl = "http://localhost:" + PORT + "/api/v1/auth/register";
         HttpHeaders headers = new HttpHeaders();
@@ -85,7 +82,6 @@ class ApiTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
     @Test
-    @DirtiesContext
     void testRegisterEndpointwithoutemail() {
         String baseUrl = "http://localhost:" + PORT + "/api/v1/auth/register";
         HttpHeaders headers = new HttpHeaders();
@@ -100,7 +96,6 @@ class ApiTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
     @Test
-    @DirtiesContext
     void testRegisterEndpointWithoutPassWord() {
         String baseUrl = "http://localhost:" + PORT + "/api/v1/auth/register";
         HttpHeaders headers = new HttpHeaders();
@@ -113,6 +108,41 @@ class ApiTest {
         ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+    @Test
+    void testcreateEquipe() {
+        String baseUrl = "http://localhost:" + PORT + "/api/v1/equipe";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+        String requestBody = "{\"nom\":\"Alex\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
+
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
+
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+    }
+
+    @Test
+    void testcreateEquipe_CONFLIT() {
+        String baseUrl = "http://localhost:" + PORT + "/api/v1/equipe";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+        String requestBody = "{\"nom\":\"Alex\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
+
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
+
+        requestBody = "{\"nom\":\"Alex\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
+
+        request = new HttpEntity<>(requestBody, headers);
+
+        response = restTemplate.postForEntity(baseUrl, request, Void.class);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
 
 }
