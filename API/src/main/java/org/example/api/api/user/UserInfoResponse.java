@@ -20,6 +20,7 @@ public class UserInfoResponse {
         UserInfoResponse response = new UserInfoResponse();
         response.setUsername(user.getUsername());
         response.setEmail(user.getEmail());
+        response.setEquipe(user.getSonEquipe());
         return response;
     }
 }

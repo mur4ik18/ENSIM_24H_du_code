@@ -34,4 +34,12 @@ public class EquipeController {
     ) {
         return ResponseEntity.ok(service.findById(id));
     }
+
+    @PostMapping("/join")
+    public ResponseEntity<?> join(
+            @RequestBody EquipeRequest request
+    ) {
+        String response = service.join(request);
+        return ResponseEntity.ok(response);
+    }
 }

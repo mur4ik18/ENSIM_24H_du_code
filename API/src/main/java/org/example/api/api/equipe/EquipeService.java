@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.example.api.api.equipe.EquipeRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +22,7 @@ public class EquipeService {
     public boolean EquipeExist(String nom) {
         return repository.findByNom(nom).isPresent();
     }
+
     public void save(EquipeRequest request) {
         // Get the authentication object from the security context
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -71,5 +69,76 @@ public class EquipeService {
         System.out.println("Equipe found - " + equipe);
         System.out.println("Equipe Users - " + equipe.getListeMembres());
         return EquipeInfoResponse.fromEquipe(equipe);
+    }
+
+
+    public String join(EquipeRequest request) {
+        System.out.println("Equipe join request - " + request);
+        Optional<Equipe> equipe = repository.findByNom(request.getNom());
+        System.out.println("Equipe found - " + equipe);
+        if (UserInEquipe()) {
+            return new String("User already in an equipe");
+        }
+        System.out.println("I am here");
+        if (equipe.isPresent() && equipe.get().getMotDePasse().equals(request.getMotDePasse())) {
+            // Get the authentication object from the security context
+            System.out.println("I am here");
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            // Find the user from the database using the username from the authentication object
+            System.out.println("I am here");
+            User user = userRepository.findByUsername(auth.getName()).get();
+            System.out.println("I am here");
+            Set<User> listeMembres = equipe.get().getListeMembres();
+            System.out.println("I am here");
+            if (listeMembres == null) {
+                listeMembres = new HashSet<>();
+            }
+            System.out.println("I am here");
+            listeMembres.add(user);
+            equipe.get().setListeMembres(listeMembres);
+            repository.save(equipe.get());
+            user.setSonEquipe(equipe.get());
+            return "Equipe joined successfully";
+        }
+        return "Equipe not found or password incorrect";
+    }
+
+
+    public EquipeInfoResponse leave() {
+        // Get the authentication object from the security context
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // Find the user from the database using the username from the authentication object
+        User user = userRepository.findByUsername(auth.getName()).get();
+        Equipe equipe = user.getSonEquipe();
+        Set<User> listeMembres = equipe.getListeMembres();
+        listeMembres.remove(user);
+        equipe.setListeMembres(listeMembres);
+        repository.save(equipe);
+        user.setSonEquipe(null);
+        return EquipeInfoResponse.fromEquipe(equipe);
+    }
+
+    public EquipeInfoResponse delete() {
+        // Get the authentication object from the security context
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // Find the user from the database using the username from the authentication object
+        User user = userRepository.findByUsername(auth.getName()).get();
+        Equipe equipe = user.getSonEquipe();
+        Set<User> listeMembres = equipe.getListeMembres();
+        listeMembres.remove(user);
+        equipe.setListeMembres(listeMembres);
+        repository.save(equipe);
+        user.setSonEquipe(null);
+        repository.delete(equipe);
+        return EquipeInfoResponse.fromEquipe(equipe);
+    }
+
+    public boolean UserInEquipe() {
+        // Get the authentication object from the security context
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // Find the user from the database using the username from the authentication object
+        User user = userRepository.findByUsername(auth.getName()).get();
+        Equipe equipe = user.getSonEquipe();
+        return equipe != null;
     }
 }
