@@ -30,6 +30,8 @@ public class Equipe {
     @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "equipe_id", referencedColumnName = "id")
     private Set<User> listeMembres = new HashSet<>();
+
+
     private int paiement;
     private int annee;
     private String sujet;

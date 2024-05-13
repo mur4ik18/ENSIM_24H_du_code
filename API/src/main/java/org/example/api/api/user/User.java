@@ -35,7 +35,6 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "equipe_id", referencedColumnName = "id")
     private Equipe SonEquipe;
 
     @Enumerated(EnumType.STRING)
