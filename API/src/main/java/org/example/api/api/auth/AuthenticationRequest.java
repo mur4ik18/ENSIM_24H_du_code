@@ -24,7 +24,7 @@ public class AuthenticationRequest {
 
         @PostMapping("/register")
         public ResponseEntity register(@RequestBody RegisterRequest request) {
-            if (request.getEmail() == null || request.getPassword() == null) {
+            if (request.getEmail().isEmpty() || request.getPassword().isEmpty() || request.getFirstName().isEmpty() || request.getLastName().isEmpty() || request.getUsername().isEmpty()) {
                 return ResponseEntity.badRequest().build();
             }
 
