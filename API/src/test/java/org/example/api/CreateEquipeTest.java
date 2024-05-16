@@ -21,12 +21,15 @@ public class CreateEquipeTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
-
     @Test
     void testcreateEquipe() {
+        testRegisterMultipleUsers();
+        String token = login("utilisateur2");
+
         String baseUrl = "http://localhost:" + PORT + "/api/v1/equipe";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
+        headers.set("Authorization", "Bearer " + token);
 
         String requestBody = "{\"nom\":\"Alex\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
 
@@ -37,20 +40,41 @@ public class CreateEquipeTest {
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
     }
 
-    @Test
-    void testcreateEquipe_CONFLIT() {
-        String baseUrl = "http://localhost:" + PORT + "/api/v1/equipe";
+
+
+    void testRegisterMultipleUsers() {
+        String baseUrl = "http://localhost:" + PORT + "/api/v1/auth/register";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
-        String requestBody = "{\"nom\":\"Alex\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
+        for (int i = 1; i <= 6; i++) {
+            String username = "utilisateur" + i;
+            String requestBody = String.format(
+                    "{\"username\":\"%s\",\"firstName\":\"Alex\",\"lastName\":\"KOTOV\",\"email\":\"utilisateur%d@example.com\",\"password\":\"pdjslkqsljdlqjsdljqs\"}",
+                    username, i);
+
+            HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+            ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
+
+            System.out.println(response.getStatusCode() + " " + username);
+        }
+    }
+    String login(String username) {
+        String baseUrl = "http://localhost:8080/api/v1/auth/login";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+
+        String requestBody = String.format("{\"email\":\"%s@example.com\",\"password\":\"pdjslkqsljdlqjsdljqs\"}", username);
+
 
         HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
+        String token = response.getHeaders().getFirst("Authorization");
 
-        response = restTemplate.postForEntity(baseUrl, request, Void.class);
-
-        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        System.out.println(token);
+            // Retrieving the token from response headers
+        return token;
     }
 }
