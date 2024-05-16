@@ -70,11 +70,10 @@ public class CreateEquipeTest {
 
         HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
-        String token = response.getHeaders().getFirst("Authorization");
+        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, request, String.class);
 
-        System.out.println(token);
+        System.out.println(response);
             // Retrieving the token from response headers
-        return token;
+        return response.getBody().split(":")[1].replace("\"", "").replace("}", "");
     }
 }
