@@ -37,6 +37,8 @@ public class User implements UserDetails {
     @ManyToOne(cascade = CascadeType.ALL)
     private Equipe SonEquipe;
 
+
+
     @Enumerated(EnumType.STRING)
     private Role role;
     @Override

@@ -27,6 +27,10 @@ public class Equipe {
     private String image;
     private String motDePasse;
 
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "proprietaire_id", referencedColumnName = "id")
+    private User proprietaire;
+
     @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "equipe_id", referencedColumnName = "id")
     private Set<User> listeMembres = new HashSet<>();
