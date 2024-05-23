@@ -1,7 +1,9 @@
 package org.example.api;
 
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -12,37 +14,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
-@Rollback
 public class CreateEquipeTest {
     private static final int PORT = 8080; // Définissez le port ici
 
     @Autowired
     private TestRestTemplate restTemplate;
-    @Test
-    void testcreateEquipe() {
-        testRegisterMultipleUsers();
-        String token = login("utilisateur2");
 
-        String baseUrl = "http://localhost:" + PORT + "/api/v1/equipe";
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
-        headers.set("Authorization", "Bearer " + token);
-
-        String requestBody = "{\"nom\":\"Alex\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
-
-        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
-
-        ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
-
-        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
-    }
-
-
-
-    void testRegisterMultipleUsers() {
+    @BeforeAll
+    void beforeAll() {
+        System.setProperty("spring.profiles.active", "test");
         String baseUrl = "http://localhost:" + PORT + "/api/v1/auth/register";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
@@ -59,6 +42,62 @@ public class CreateEquipeTest {
             System.out.println(response.getStatusCode() + " " + username);
         }
     }
+    @Test
+    void testcreateEquipe() {
+        String token = login("utilisateur2");
+
+        String baseUrl = "http://localhost:" + PORT + "/api/v1/equipe";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        headers.set("Authorization", "Bearer " + token);
+
+        String requestBody = "{\"nom\":\"Alex\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
+
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+    }
+
+    @Test
+    void testcreateEquipeWithoutToken() {
+        String baseUrl = "http://localhost:" + PORT + "/api/v1/equipe";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+        String requestBody = "{\"nom\":\"Alex\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+    }
+
+    @Test
+    void testcreateEquipeWithWrongToken() {
+        String baseUrl = "http://localhost:" + PORT + "/api/v1/equipe";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        headers.set("Authorization", "Bearer " + "wrongToken");
+
+        String requestBody = "{\"nom\":\"Alex\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+    }
+
+    @Test
+    void testGetEquipe() {
+        String baseUrl = "http://localhost:" + PORT + "/api/v1/equipe/all";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+        String requestBody = "{}";
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<String> response = restTemplate.getForEntity(baseUrl, String.class);
+        System.out.println(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+
+
     String login(String username) {
         String baseUrl = "http://localhost:8080/api/v1/auth/login";
         HttpHeaders headers = new HttpHeaders();
