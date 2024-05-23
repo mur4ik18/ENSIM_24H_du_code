@@ -26,7 +26,7 @@ public class TestEquipes {
 
     @Test
     void testcreateEquipe() {
-        String token = login("sqjskjdlqjl");
+        String token = login("sqjskjdlqjl@gmail.com", "pdjslkqsljdlqjsdljqs");
 
         String baseUrl = "http://localhost:"+PORT+"/api/v1/equipe";
         HttpHeaders headers = new HttpHeaders();
@@ -36,7 +36,7 @@ public class TestEquipes {
         String requestBody = "{\"nom\":\"TestEquipe\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
 
         HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, request, Void.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, request, String.class);
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
     }
 
@@ -53,13 +53,46 @@ public class TestEquipes {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    String login(String username) {
+    @Test
+    void testJoinEquipe() {
+        String token = login("emily.chang@example.com", "TechPass#2024");
+
+        String baseUrl = "http://localhost:"+PORT+"/api/v1/equipe/join";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        headers.set("Authorization", "Bearer " + token);
+
+        String requestBody = "{\"nom\":\"TestEquipe\",\"motDePasse\":\"pdjslkqsljdlqjsdljqs\"}";
+
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, request, String.class);
+        System.out.println(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testLeaveEquipe() {
+        String token = login("sqjskjdlqjl@gmail.com", "pdjslkqsljdlqjsdljqs");
+
+        String baseUrl = "http://localhost:"+PORT+"/api/v1/equipe/leave";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        headers.set("Authorization", "Bearer " + token);
+
+        String requestBody = "{}";
+
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, request, String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    String login(String username, String password) {
         String baseUrl = "http://localhost:8080/api/v1/auth/login";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
 
-        String requestBody = String.format("{\"email\":\"%s@gmail.com\",\"password\":\"pdjslkqsljdlqjsdljqs\"}", username);
+        String requestBody = String.format("{\"email\":\"%s\",\"password\":\"%s\"}", username, password);
 
 
         HttpEntity<String> request = new HttpEntity<>(requestBody, headers);

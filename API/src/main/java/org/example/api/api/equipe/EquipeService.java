@@ -28,12 +28,16 @@ public class EquipeService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         // Find the user from the database using the username from the authentication object
         User user = userRepository.findByUsername(auth.getName()).get();
+        System.out.println("User found - " + user);
+
         // Build a new Equipe object using the request data
         Equipe equipe = Equipe
                 .builder()
                 .nom(request.getNom())
                 .motDePasse(request.getMotDePasse())
                 .build();
+
+        System.out.println("Equipe created - " + user);
         // Get the list of members from the equipe object
         Set<User> listeMembres = equipe.getListeMembres();
         // If the list of members is null, initialize it as a new HashSet
@@ -48,7 +52,6 @@ public class EquipeService {
         repository.save(equipe);
         System.out.println("Equipe saved - " + equipe);
         // Set the equipe to the user object
-        user.setSonEquipe(equipe);
     }
 
 
@@ -79,21 +82,15 @@ public class EquipeService {
         if (UserInEquipe()) {
             return new String("User already in an equipe");
         }
-        System.out.println("I am here");
         if (equipe.isPresent() && equipe.get().getMotDePasse().equals(request.getMotDePasse())) {
             // Get the authentication object from the security context
-            System.out.println("I am here");
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             // Find the user from the database using the username from the authentication object
-            System.out.println("I am here");
             User user = userRepository.findByUsername(auth.getName()).get();
-            System.out.println("I am here");
             Set<User> listeMembres = equipe.get().getListeMembres();
-            System.out.println("I am here");
             if (listeMembres == null) {
                 listeMembres = new HashSet<>();
             }
-            System.out.println("I am here");
             listeMembres.add(user);
             equipe.get().setListeMembres(listeMembres);
             repository.save(equipe.get());
@@ -109,6 +106,9 @@ public class EquipeService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         // Find the user from the database using the username from the authentication object
         User user = userRepository.findByUsername(auth.getName()).get();
+        System.out.println("User found - " + user);
+        System.out.println("User Equipe - " + user.getSonEquipe());
+        System.out.println("User Equipe Users - " + user.getSonEquipe().getListeMembres());
         Equipe equipe = user.getSonEquipe();
         Set<User> listeMembres = equipe.getListeMembres();
         listeMembres.remove(user);
