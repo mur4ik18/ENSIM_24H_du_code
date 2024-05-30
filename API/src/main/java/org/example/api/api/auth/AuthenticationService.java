@@ -25,7 +25,7 @@ public class AuthenticationService {
         return repository.findByEmail(email).isPresent();
     }
     public AuthenticationResponse register(RegisterRequest request) {
-       var user = User.builder()
+        var user = User.builder()
                 .firstname(request.getFirstName())
                 .lastname(request.getLastName())
                 .email(request.getEmail())
