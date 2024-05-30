@@ -39,6 +39,9 @@ public class EquipeController {
     public ResponseEntity<?> join(
             @RequestBody EquipeRequest request
     ) {
+        if (service.UsersInEquipe(request.getNom()) >= 5) {
+            return new ResponseEntity("Equipe is full", HttpStatus.BAD_REQUEST);
+        }
         String response = service.join(request);
         return ResponseEntity.ok(response);
     }

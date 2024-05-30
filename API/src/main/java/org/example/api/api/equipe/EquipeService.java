@@ -44,6 +44,7 @@ public class EquipeService {
         if (listeMembres == null) {
             listeMembres = new HashSet<>();
         }
+        equipe.setProprietaire(user);
         // Add the current user to the list of members
         listeMembres.add(user);
         // Set the updated list of members to the equipe object
@@ -126,5 +127,11 @@ public class EquipeService {
         User user = userRepository.findByUsername(auth.getName()).get();
         Equipe equipe = user.getSonEquipe();
         return equipe != null;
+    }
+
+    public int UsersInEquipe(String name) {
+        Equipe equipe = repository.findByNom(name).get();
+        Set<User> listeMembres = equipe.getListeMembres();
+        return listeMembres.size();
     }
 }
