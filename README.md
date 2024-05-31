@@ -59,14 +59,10 @@ It is an API for evenement 24h du code Le Mans, we need to create Back-end for f
 
 <!-- GETTING STARTED -->
 ## Getting Started
+You need to configure your own postgresql local, after you need to modify:
+resources/application.yml
 
-
-### Prerequisites
-
-
-
-### Installation
-
+Then you need to use IDE(I advice to use intellij idea) or Maven directly in terminal for start application
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -75,6 +71,17 @@ It is an API for evenement 24h du code Le Mans, we need to create Back-end for f
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+All endpoints:
+POST - /api/v1/auth/login
+POST - /api/v1/auth/register
+
+POST - /api/v1/equipe        | create team
+GET - /api/v1/equipe/all     | return list of teams
+GET - /api/v1/equipe/{id}    | return information about team with id == {id} 
+POST - /api/v1/equipe/join   | join team
+POST - /api/v1/equipe/leave  | leave team
+
+GET - /api/v1/user           | return list of users
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
