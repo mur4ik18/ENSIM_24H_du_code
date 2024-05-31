@@ -72,16 +72,16 @@ Then you need to use IDE(I advice to use intellij idea) or Maven directly in ter
 ## Usage
 
 All endpoints:
-POST - /api/v1/auth/login
-POST - /api/v1/auth/register
+* POST - /api/v1/auth/login
+* POST - /api/v1/auth/register
 
-POST - /api/v1/equipe        | create team
-GET - /api/v1/equipe/all     | return list of teams
-GET - /api/v1/equipe/{id}    | return information about team with id == {id} 
-POST - /api/v1/equipe/join   | join team
-POST - /api/v1/equipe/leave  | leave team
+* POST - /api/v1/equipe        | create team
+* GET - /api/v1/equipe/all     | return list of teams
+* GET - /api/v1/equipe/{id}    | return information about team with id == {id} 
+* POST - /api/v1/equipe/join   | join team
+* POST - /api/v1/equipe/leave  | leave team
 
-GET - /api/v1/user           | return list of users
+* GET - /api/v1/user           | return list of users
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
